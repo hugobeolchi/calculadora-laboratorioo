@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Precificação - Laboratório</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f4; }
+    h1 { color: #333; }
+    label { display: block; margin-top: 15px; }
+    input { padding: 8px; width: 300px; margin-top: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+    .result { margin-top: 20px; font-size: 18px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+  <h1>Calculadora de Precificação - Laboratório</h1>
+
+  <label>Nome do Exame: <input type="text" id="exame"></label>
+  <label>Custo dos Insumos (R$): <input type="number" id="insumos" step="0.01"></label>
+  <label>Tempo de Profissional (min): <input type="number" id="tempo"></label>
+  <label>Custo por Hora do Profissional (R$): <input type="number" id="hora" step="0.01"></label>
+  <label>Custo de Equipamento (R$): <input type="number" id="equipamento" step="0.01"></label>
+  <label>Custo de Descarte e EPI (R$): <input type="number" id="descarte" step="0.01"></label>
+  <label>Custos Fixos Proporcionais (R$): <input type="number" id="fixos" step="0.01"></label>
+  <label>Margem de Lucro (%): <input type="number" id="lucro" step="0.01"></label>
+
+  <button onclick="calcular()">Calcular Preço</button>
+
+  <div class="result" id="resultado"></div>
+
+  <script>
+    function calcular() {
+      const insumos = parseFloat(document.getElementById('insumos').value) || 0;
+      const tempo = parseFloat(document.getElementById('tempo').value) || 0;
+      const hora = parseFloat(document.getElementById('hora').value) || 0;
+      const equipamento = parseFloat(document.getElementById('equipamento').value) || 0;
+      const descarte = parseFloat(document.getElementById('descarte').value) || 0;
+      const fixos = parseFloat(document.getElementById('fixos').value) || 0;
+      const lucro = parseFloat(document.getElementById('lucro').value) || 0;
+
+      const maoDeObra = (tempo / 60) * hora;
+      const custoTotal = insumos + maoDeObra + equipamento + descarte + fixos;
+      const precoFinal = custoTotal * (1 + lucro / 100);
+
+      document.getElementById('resultado').innerHTML = `
+        <strong>Nome do Exame:</strong> ${document.getElementById('exame').value || 'Não informado'}<br>
+        <strong>Custo de Mão de Obra:</strong> R$ ${maoDeObra.toFixed(2)}<br>
+        <strong>Custo Total:</strong> R$ ${custoTotal.toFixed(2)}<br>
+        <strong>Preço Final com Lucro:</strong> R$ ${precoFinal.toFixed(2)}
+      `;
+    }
+  </script>
+</body>
+</html>
